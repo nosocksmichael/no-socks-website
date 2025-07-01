@@ -1,8 +1,8 @@
-// app/layout.tsx - Typography Updates
+// app/layout.tsx
 import type { Metadata } from "next";
 import Navigation from "./components/Navigation";
 import "./globals.css";
-import Script from "next/script";
+import GoogleTagManager from "@/lib/GoogleTagManager"; // Import the component
 
 export const metadata: Metadata = {
   title: "No Socks | Where Vibe Marketing Meets Velocity",
@@ -23,24 +23,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" 
           rel="stylesheet" 
         />
-        {/* Google Tag Manager */}
-        <Script id="gtm-head" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-NL64XDHQ');
-          `}
-        </Script>
-        {/* End Google Tag Manager */}
+        {/* The GTM script is now handled by the component below */}
       </head>
       <body className="font-inter antialiased">
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NL64XDHQ" height="0" width="0" style={{display:'none',visibility:'hidden'}}></iframe>
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
+        {/* Add the GTM component here */}
+        <GoogleTagManager />
+        
         <Navigation />
         {children}
       </body>

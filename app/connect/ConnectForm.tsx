@@ -1,16 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContactForm } from "./actions";
 
-// The initial state for the form response message
+// Define the dataLayer type on the window object for TypeScript
+type WindowWithDataLayer = Window & {
+  dataLayer: Record<string, any>[];
+};
+declare const window: WindowWithDataLayer;
+
+// Define the initial state for the form, matching the return type of the server action
 const initialState = {
   message: "",
   type: "",
+  submissionData: undefined,
 };
 
-// A custom submit button that shows a "pending" state while the form is submitting
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -24,9 +30,18 @@ function SubmitButton() {
   );
 }
 
-// The main form component
 export default function ConnectForm() {
   const [state, formAction] = useActionState(submitContactForm, initialState);
+
+  // This useEffect hook will run whenever the 'state' object changes
+  useEffect(() => {
+    // If the form submission was successful and there's submissionData, push to dataLayer
+    if (state.type === 'success' && state.submissionData) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(state.submissionData);
+    }
+  }, [state]); // The dependency array ensures this runs only when state changes
+
 
   // If the form was submitted successfully, show a thank you message
   if (state.type === 'success') {
@@ -44,7 +59,7 @@ export default function ConnectForm() {
       <p className="text-gray-400 mb-8">Tell us about your challenges and we'll design a solution that fits your specific needs.</p>
       
       <form action={formAction} className="space-y-6">
-        {/* Project Type */}
+        {/* All form fields remain the same as before */}
         <div>
             <label htmlFor="project_type" className="block text-sm font-semibold text-gray-300 mb-2">
               <span className="font-mono text-blue-400">// </span>Project Type
@@ -60,7 +75,6 @@ export default function ConnectForm() {
             </select>
         </div>
 
-        {/* Company Name */}
         <div>
           <label htmlFor="company_name" className="block text-sm font-semibold text-gray-300 mb-2">
             <span className="font-mono text-blue-400">// </span>Company Name
@@ -68,7 +82,6 @@ export default function ConnectForm() {
           <input id="company_name" name="company_name" type="text" required placeholder="your_brand_name" className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-100" />
         </div>
 
-        {/* Contact Details */}
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <label htmlFor="your_name" className="block text-sm font-semibold text-gray-300 mb-2">
@@ -84,7 +97,6 @@ export default function ConnectForm() {
           </div>
         </div>
         
-        {/* Phone Number - ADDED */}
         <div>
             <label htmlFor="phone_number" className="block text-sm font-semibold text-gray-300 mb-2">
               <span className="font-mono text-blue-400">// </span>Phone Number (Optional)
@@ -92,7 +104,6 @@ export default function ConnectForm() {
             <input id="phone_number" name="phone_number" type="tel" placeholder="(555) 123-4567" className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-100" />
         </div>
 
-        {/* Budget */}
         <div>
           <label htmlFor="budget_range" className="block text-sm font-semibold text-gray-300 mb-2">
             <span className="font-mono text-blue-400">// </span>Monthly Marketing Budget
@@ -107,7 +118,6 @@ export default function ConnectForm() {
           </select>
         </div>
 
-        {/* Primary Challenge */}
         <div>
           <label htmlFor="primary_challenge" className="block text-sm font-semibold text-gray-300 mb-2">
             <span className="font-mono text-blue-400">// </span>Primary Challenge
@@ -115,7 +125,6 @@ export default function ConnectForm() {
           <textarea id="primary_challenge" name="primary_challenge" rows={4} required placeholder="describe_current_pain_points();" className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-100"></textarea>
         </div>
 
-        {/* Timeline */}
         <div>
           <label htmlFor="timeline" className="block text-sm font-semibold text-gray-300 mb-2">
             <span className="font-mono text-blue-400">// </span>Implementation Timeline
@@ -129,7 +138,6 @@ export default function ConnectForm() {
           </select>
         </div>
 
-        {/* Marketing Stack */}
         <div>
           <label htmlFor="marketing_stack" className="block text-sm font-semibold text-gray-300 mb-2">
             <span className="font-mono text-blue-400">// </span>Current Marketing Stack
@@ -139,7 +147,6 @@ export default function ConnectForm() {
 
         <SubmitButton />
 
-        {/* Display error message from the server if it exists */}
         {state.type === 'error' && (
           <p className="mt-4 text-sm text-center text-red-400">
             {state.message}
