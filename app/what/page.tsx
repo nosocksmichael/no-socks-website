@@ -209,12 +209,12 @@ export default function WhatPage() {
               
               <div className="bg-gray-800 rounded-lg p-3 mb-4">
                 <p className="font-mono text-xs text-blue-400">// automation_config.js</p>
-                <div className="font-mono text-xs text-gray-300">
-                  <div>if (lead.score > threshold) &#123;</div>
-                  <div className="ml-4">nurture.trigger('high_intent');</div>
-                  <div className="ml-4">alert.sales_team();</div>
-                  <div>&#125;</div>
-                </div>
+                <pre className="font-mono text-xs text-gray-300 bg-gray-800 rounded p-2 overflow-x-auto">
+{`if (lead.score > threshold) {
+  nurture.trigger('high_intent');
+  alert.sales_team();
+}`}
+                </pre>
               </div>
               
               <p className="text-gray-400 text-sm mb-4">
