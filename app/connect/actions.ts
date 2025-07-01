@@ -11,7 +11,7 @@ export async function submitContactForm(prevState: any, formData: FormData) {
   const name = formData.get("your_name") as string;
   const emailAddress = formData.get("contact_email") as string;
   const companyName = formData.get("company_name") as string;
-  const phoneNumber = formData.get("phone_number") as string; // ADDED
+  const phoneNumber = formData.get("phone_number") as string;
   const projectType = formData.get("project_type") as string;
   const monthlyBudget = formData.get("budget_range") as string;
   const timeline = formData.get("timeline") as string;
@@ -24,12 +24,8 @@ export async function submitContactForm(prevState: any, formData: FormData) {
   }
 
   try {
-    // Attempt to create a new page (row) in your Notion database
-    await notion.pages.create({
-      parent: { database_id: process.env.NOTION_DATABASE_ID! },
-      
-      // Map form data to your Notion database properties
-      properties: {
+    // --- Define the properties object for the Notion API call ---
+    const properties: any = {
         "Name": {
           title: [{ text: { content: name } }],
         },
@@ -38,10 +34,6 @@ export async function submitContactForm(prevState: any, formData: FormData) {
         },
         "Company Name": {
           rich_text: [{ text: { content: companyName } }],
-        },
-        // ADDED: Phone Number property
-        "Phone Number": {
-            phone_number: phoneNumber,
         },
         "Project Type": {
           rich_text: [{ text: { content: projectType } }],
@@ -58,7 +50,19 @@ export async function submitContactForm(prevState: any, formData: FormData) {
         "Current Marketing Stack": {
           rich_text: [{ text: { content: marketingStack } }],
         },
-      },
+    };
+
+    // --- Conditionally add the phone number if it exists ---
+    if (phoneNumber) {
+        properties["Phone Number"] = {
+            phone_number: phoneNumber,
+        };
+    }
+
+    // Attempt to create a new page (row) in your Notion database
+    await notion.pages.create({
+      parent: { database_id: process.env.NOTION_DATABASE_ID! },
+      properties: properties, // Use the dynamically created properties object
     });
 
     // If successful, return a success message
