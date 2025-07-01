@@ -1,53 +1,47 @@
+// app/layout.tsx - Typography Updates
 import type { Metadata } from "next";
+import Navigation from "./components/Navigation";
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "No Socks - Life is Better Without Socks",
-  description: "Join the No Socks revolution. Experience freedom, comfort, and savings by going sockless.",
+  title: "No Socks | Where Vibe Marketing Meets Velocity",
+  description: "We architect intelligent marketing ecosystems that give your authentic vibe unstoppable velocity. AI leveraging, automation artistry, and marketing OS building for ambitious challengers.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
-        {/* Modern Navigation */}
-        <nav className="bg-white/80 backdrop-blur-xl border-b border-gray-200 sticky top-0 z-50">
-          <div className="container mx-auto px-6">
-            <div className="flex justify-between items-center h-20">
-              {/* Modern Logo */}
-              <div className="flex items-center">
-                <a href="/" className="text-3xl font-bold text-gray-900 hover:text-sky-600 transition-colors duration-200">
-                  No Socks <span className="text-2xl">🧦</span>
-                </a>
-              </div>
-              
-{/* Modern Navigation Links */}
-<div className="flex space-x-2">
-  <a href="/" className="text-gray-600 font-medium px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition-all duration-200">
-    Home
-  </a>
-  <a href="/about" className="text-gray-600 font-medium px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition-all duration-200">
-    About
-  </a>
-  <a href="/faq" className="text-gray-600 font-medium px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition-all duration-200">
-    FAQ
-  </a>
-  <a href="/contact" className="text-gray-600 font-medium px-4 py-2 rounded-xl hover:text-sky-600 hover:bg-sky-50 transition-all duration-200">
-    Contact
-  </a>
-  <a href="#" className="bg-sky-500 text-white px-6 py-2 rounded-xl font-semibold hover:bg-sky-600 hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl ml-4">
-    Join the Movement
-  </a>
-</div>
-
-            </div>
-          </div>
-        </nav>
-        
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" 
+          rel="stylesheet" 
+        />
+        {/* Google Tag Manager */}
+        <Script id="gtm-head" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-NL64XDHQ');
+          `}
+        </Script>
+        {/* End Google Tag Manager */}
+      </head>
+      <body className="font-inter antialiased">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NL64XDHQ" height="0" width="0" style={{display:'none',visibility:'hidden'}}></iframe>
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+        <Navigation />
         {children}
       </body>
     </html>

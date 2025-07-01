@@ -1,26 +1,157 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
+/* stylelint-disable */
+/* postcss-css-variables: true */
+/* language=postcss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-900 text-gray-100 antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+    font-family: 'Inter', sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Typography utilities matching style guide */
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .font-code {
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .font-mono {
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* Logo components */
+  .logo {
+    @apply font-inter text-3xl font-bold tracking-tighter;
+  }
+  
+  .logo-large {
+    @apply font-inter text-5xl font-bold tracking-tighter;
+  }
+  
+  /* Color utilities matching style guide */
+  .accent-text {
+    @apply text-blue-500;
+    color: #3b82f6; /* Velocity Blue from style guide */
+  }
+  
+  .accent-bg {
+    @apply bg-blue-500;
+    background-color: #3b82f6; /* Velocity Blue from style guide */
+  }
+  
+  /* Primary brand button - matches style guide */
+  .brand-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+  
+  .brand-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .brand-button:active {
+    transform: translateY(0);
+  }
+
+  /* Outline button variant */
+  .brand-button-outline {
+    @apply border-2 border-blue-500 text-blue-500 font-semibold py-3 px-6 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-200;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Card components matching style guide */
+  .card-dark {
+    @apply bg-gray-800 border border-gray-700 rounded-lg;
+  }
+  
+  /* Text utilities matching style guide monochrome palette */
+  .text-primary {
+    @apply text-gray-100;
+    color: #F9FAFB; /* Light Gray from style guide */
+  }
+  
+  .text-secondary {
+    @apply text-gray-400;
+    color: #9CA3AF; /* Gray from style guide */
+  }
+
+  /* Technical/code block styling for Marketing OS Builder pillar */
+  .code-block {
+    @apply bg-gray-900 border border-gray-700 rounded-lg p-6;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .code-comment {
+    @apply text-blue-400;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .code-text {
+    @apply text-gray-300;
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* Mobile menu animation */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slideDown {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  /* Gradient text utility for headlines */
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hover effects for cards */
+  .card-hover {
+    @apply transition-all duration-300 hover:border-gray-600 hover:shadow-lg;
+  }
+
+  /* Focus states for accessibility */
+  .focus-brand {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900;
+  }
 }
