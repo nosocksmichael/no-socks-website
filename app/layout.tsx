@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navigation from "./components/Navigation";
 import "./globals.css";
 import GoogleTagManager from "@/lib/GoogleTagManager"; // Import the component
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "No Socks | Where Vibe Marketing Meets Velocity",
@@ -27,7 +28,9 @@ export default function RootLayout({
       </head>
       <body className="font-inter antialiased">
         {/* Add the GTM component here */}
-        <GoogleTagManager />
+        <Suspense>
+          <GoogleTagManager />
+        </Suspense>
         
         <Navigation />
         {children}
