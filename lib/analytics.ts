@@ -89,6 +89,48 @@ export const enableAnalyticsDebug = () => {
   }
 };
 
+// Form tracking functions
+export const trackFormSubmit = (formId: string, formName: string, additionalData?: Record<string, any>) => {
+  if (typeof window === 'undefined') return;
+  
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'form_submit',
+    form_id: formId,
+    form_name: formName,
+    page_location: window.location.href,
+    page_title: document.title,
+    ...additionalData,
+  });
+};
+
+export const trackFormStart = (formId: string, formName: string) => {
+  if (typeof window === 'undefined') return;
+  
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'form_start',
+    form_id: formId,
+    form_name: formName,
+    page_location: window.location.href,
+    page_title: document.title,
+  });
+};
+
+export const trackFormSuccess = (formId: string, formName: string, submissionData?: Record<string, any>) => {
+  if (typeof window === 'undefined') return;
+  
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'form_success',
+    form_id: formId,
+    form_name: formName,
+    page_location: window.location.href,
+    page_title: document.title,
+    ...submissionData,
+  });
+};
+
 // Call this in development
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   enableAnalyticsDebug();

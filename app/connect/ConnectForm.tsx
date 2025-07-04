@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContactForm } from "./actions";
+import { trackFormSubmit, trackFormStart, trackFormSuccess } from "../../lib/analytics";
 
 // Define the dataLayer type on the window object for TypeScript
 type WindowWithDataLayer = Window & {
@@ -35,12 +36,21 @@ export default function ConnectForm() {
 
   // This useEffect hook will run whenever the 'state' object changes
   useEffect(() => {
-    // If the form submission was successful and there's submissionData, push to dataLayer
+    // If the form submission was successful and there's submissionData, track success
     if (state.type === 'success' && state.submissionData) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(state.submissionData);
+      trackFormSuccess('contact-form', 'Contact Form', state.submissionData);
     }
   }, [state]); // The dependency array ensures this runs only when state changes
+
+  // Handle form submission event for tracking
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    trackFormSubmit('contact-form', 'Contact Form');
+  };
+
+  // Track when user starts interacting with the form
+  const handleFormStart = () => {
+    trackFormStart('contact-form', 'Contact Form');
+  };
 
 
   // If the form was submitted successfully, show a thank you message
@@ -58,13 +68,13 @@ export default function ConnectForm() {
       <h2 className="text-2xl font-bold text-gray-100 mb-2">Initialize Your Marketing OS</h2>
       <p className="text-gray-400 mb-8">Tell us about your challenges and we'll design a solution that fits your specific needs.</p>
       
-      <form action={formAction} className="space-y-6">
+      <form action={formAction} onSubmit={handleFormSubmit} className="space-y-6">
         {/* All form fields remain the same as before */}
         <div>
             <label htmlFor="project_type" className="block text-sm font-semibold text-gray-300 mb-2">
               <span className="font-mono text-blue-400">// </span>Project Type
             </label>
-            <select id="project_type" name="project_type" required className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-100">
+            <select id="project_type" name="project_type" required onFocus={handleFormStart} className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-100">
               <option value="">Select your primary need</option>
               <option value="marketing_os_development">marketing_os_development</option>
               <option value="ai_powered_automation">ai_powered_automation</option>
